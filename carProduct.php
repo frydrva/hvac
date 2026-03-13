@@ -171,8 +171,9 @@
           
           <?php
           echo('  
-            <div
+            <div class ="">
                 
+            </div>
             ');    
             ?>
         </div>
