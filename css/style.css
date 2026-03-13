@@ -1081,6 +1081,7 @@ ol {
 
 .car__item__price {
 	position: relative;
+
 }
 
 .car__item__price .car-option {
@@ -1091,7 +1092,7 @@ ol {
 	display: inline-block;
 	padding: 12px 22px 10px;
 	border-radius: 2px 0 0 2px;
-	position: absolute;
+	position: center;
 	left: 0;
 	top: 0;
 }
