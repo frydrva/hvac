@@ -294,12 +294,13 @@
                         <ul>
                           <li><span>' . $record["najezd"] . '</span> km</li>
                           <li>' . $record["motorizace"] . 'L</li>
-                          <li><span></span> hp</li>
+                          <li><span></span>' . $record["vykon"] . ' hp</li>
                         </ul>
                       </div>
-                      <div class="car__item__price"><a style="text-decoration: none;color: white;"href="carProduct.php">
+                      <div class="car__item__price"><a style="text-decoration: none;color: white;"href="carProduct.php?id='. $record["ID"] . '"> 
                         <span class="car-option">' . $record["cena"] . '</span>
                         <h6></h6>
+                        </a>
                       </div>
                     </div>
                   </div>

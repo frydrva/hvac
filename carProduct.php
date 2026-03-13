@@ -50,7 +50,7 @@
   
   
   if (isset($_GET['id'])) {
-    $car = Db::queryOne('SELECT * FROM pauta WHERE id = ?', $_GET['id'])
+    $car = Db::queryOne('SELECT * FROM pauta WHERE ID = ?', $_GET['id']);
   }
 
   ?>
@@ -170,33 +170,10 @@
 
           
           <?php
-          if ($car) {
-            echo('  
-            
-                <div class="col-lg-4 col-md-4">
-                  <div class="car__item">
-                    <div class="car__item__pic__slider owl-carousel">
-                      <img src="img/cars/car-3.jpg" alt="" loading="lazy" decoding="async">
-                    </div>
-                    <div class="car__item__text">
-                      <div class="car__item__text__inner">
-                        <div class="label-date">' . $car    ["rok"] . '</div>
-                        <h5><a href="#">' . $car["znacka"] . ' '.  $car["model"] . '</a></h5>
-                        <ul>
-                          <li><span>' . $car["najezd"] . '</span> km</li>
-                          <li>' . $car["motorizace"] . 'L</li>
-                          <li><span></span> hp</li>
-                        </ul>
-                      </div>
-                      <div class="car__item__price">
-                        <span class="car-option">' . $car["cena"] . '</span>
-                        <h6></h6>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-            ');            
-          }
+          echo('  
+            <div
+                
+            ');    
             ?>
         </div>
       </div>
