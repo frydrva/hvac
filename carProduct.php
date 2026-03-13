@@ -47,10 +47,10 @@
       exit;
   }
 
-  $allRecords = Db::queryAll('SELECT * FROM pauta');
+  
   
   if (isset($_GET['id'])) {
-    $car = Db::queryOne('SELECT * FROM pauta WHERE id = ?', [$_GET['id']])
+    $car = Db::queryOne('SELECT * FROM pauta WHERE id = ?', $_GET['id'])
   }
 
   ?>
@@ -170,7 +170,7 @@
 
           
           <?php
-          if ($allRecords) {
+          if ($car) {
             echo('  
             
                 <div class="col-lg-4 col-md-4">
@@ -180,16 +180,16 @@
                     </div>
                     <div class="car__item__text">
                       <div class="car__item__text__inner">
-                        <div class="label-date">' . $record["rok"] . '</div>
-                        <h5><a href="#">' . $record["znacka"] . ' '.  $record["model"] . '</a></h5>
+                        <div class="label-date">' . $car    ["rok"] . '</div>
+                        <h5><a href="#">' . $car["znacka"] . ' '.  $car["model"] . '</a></h5>
                         <ul>
-                          <li><span>' . $record["najezd"] . '</span> km</li>
-                          <li>' . $record["motorizace"] . 'L</li>
+                          <li><span>' . $car["najezd"] . '</span> km</li>
+                          <li>' . $car["motorizace"] . 'L</li>
                           <li><span></span> hp</li>
                         </ul>
                       </div>
                       <div class="car__item__price">
-                        <span class="car-option">' . $record["cena"] . '</span>
+                        <span class="car-option">' . $car["cena"] . '</span>
                         <h6></h6>
                       </div>
                     </div>
