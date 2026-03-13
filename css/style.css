@@ -202,12 +202,14 @@ ol {
 		border: 4px solid #f44336;
 		border-left-color: transparent;
 	}
+
 	50% {
 		-webkit-transform: rotate(180deg);
 		transform: rotate(180deg);
 		border: 4px solid #673ab7;
 		border-left-color: transparent;
 	}
+
 	100% {
 		-webkit-transform: rotate(360deg);
 		transform: rotate(360deg);
@@ -3099,24 +3101,30 @@ ol {
 	.header__menu ul li {
 		margin-right: 32px;
 	}
+
 	.chooseus {
 		height: auto;
 	}
+
 	.chooseus__video {
 		height: 100%;
 	}
+
 	.car__filter form .filter-price .price-input {
 		position: relative;
 		left: 0;
 		top: 0;
 		margin-top: 20px;
 	}
+
 	.car__details__tab .nav-tabs .nav-item {
 		margin-right: 8px;
 	}
+
 	.testimonial__slider.owl-carousel .owl-nav button {
 		left: -10px;
 	}
+
 	.testimonial__slider.owl-carousel .owl-nav button.owl-next {
 		right: -10px;
 	}
@@ -3129,48 +3137,62 @@ ol {
 		padding-top: 0;
 		margin-bottom: 40px;
 	}
+
 	.feature__text {
 		margin-bottom: 500px;
 	}
+
 	.feature__item {
 		float: none;
 	}
+
 	.chooseus {
 		height: auto;
 		padding-bottom: 0;
 	}
+
 	.chooseus__video {
 		height: 100%;
 		width: 100%;
 		position: relative;
 	}
+
 	.chooseus__text {
 		margin-bottom: 40px;
 	}
+
 	.car__sidebar {
 		margin-bottom: 40px;
 	}
+
 	.car__details__tab .nav-tabs .nav-item {
 		margin-right: 8px;
 	}
+
 	.blog__sidebar {
 		padding-top: 45px;
 	}
+
 	.testimonial__slider.owl-carousel .owl-nav button {
 		left: -10px;
 	}
+
 	.testimonial__slider.owl-carousel .owl-nav button.owl-next {
 		right: -10px;
 	}
+
 	.header__top {
 		display: none;
 	}
+
 	.header__nav {
 		display: none;
 	}
+
 	.header .container {
 		position: relative;
 	}
+
 	.canvas__open {
 		display: block;
 		font-size: 22px;
@@ -3186,6 +3208,7 @@ ol {
 		right: 15px;
 		top: 35px;
 	}
+
 	.offcanvas-menu-overlay {
 		position: fixed;
 		left: 0;
@@ -3200,9 +3223,11 @@ ol {
 		transition: all, 0.5s;
 		visibility: hidden;
 	}
+
 	.offcanvas-menu-overlay.active {
 		visibility: visible;
 	}
+
 	.offcanvas-menu-wrapper {
 		position: fixed;
 		left: -300px;
@@ -3218,31 +3243,39 @@ ol {
 		transition: all, 0.5s;
 		opacity: 0;
 	}
+
 	.offcanvas-menu-wrapper.active {
 		opacity: 1;
 		left: 0;
 	}
+
 	.offcanvas__menu {
 		display: none;
 	}
+
 	.offcanvas__logo {
 		margin-bottom: 30px;
 	}
+
 	.offcanvas__widget {
 		margin-bottom: 30px;
 	}
+
 	.offcanvas__widget a {
 		font-size: 15px;
 		color: #353535;
 		margin-right: 20px;
 		display: inline-block;
 	}
+
 	.offcanvas__widget .primary-btn {
 		color: #ffffff;
 	}
+
 	.offcanvas__widget__add {
 		margin-bottom: 20px;
 	}
+
 	.offcanvas__widget__add li {
 		font-size: 15px;
 		color: #353535;
@@ -3250,38 +3283,47 @@ ol {
 		list-style: none;
 		line-height: 30px;
 	}
+
 	.offcanvas__widget__add li:last-child {
 		margin-right: 0;
 	}
+
 	.offcanvas__widget__add li i {
 		font-size: 18px;
 		color: #353535;
 		margin-right: 6px;
 	}
+
 	.offcanvas__social a {
 		display: inline-block;
 		font-size: 15px;
 		color: #353535;
 		margin-right: 16px;
 	}
+
 	.offcanvas__social a:last-child {
 		margin-right: 0;
 	}
+
 	.offcanvas__phone__num {
 		margin-bottom: 20px;
 	}
+
 	.offcanvas__phone__num i {
 		color: #353535;
 		margin-right: 6px;
 		font-size: 15px;
 	}
+
 	.offcanvas__phone__num span {
 		font-size: 15px;
 		color: #353535;
 	}
+
 	.blog-details-hero {
 		padding-bottom: 150px;
 	}
+
 	.blog-details {
 		margin-top: -100px;
 	}
@@ -3294,27 +3336,34 @@ ol {
 		padding-top: 0;
 		margin-bottom: 40px;
 	}
+
 	.chooseus {
 		height: auto;
 		padding-bottom: 0;
 	}
+
 	.chooseus__video {
 		height: 100%;
 		width: 100%;
 		position: relative;
 	}
+
 	.chooseus__text {
 		margin-bottom: 40px;
 	}
+
 	.footer__contact__option .option__item {
 		margin-bottom: 12px;
 	}
+
 	.car__sidebar {
 		margin-bottom: 40px;
 	}
+
 	.blog__sidebar {
 		padding-top: 45px;
 	}
+
 	.feature:after {
 		left: 0%;
 		top: 27%;
@@ -3323,58 +3372,75 @@ ol {
 		-ms-transform: translate(0px, 0px);
 		transform: translate(0px, 0px);
 	}
+
 	.feature__text {
 		margin-bottom: 500px;
 	}
+
 	.feature__item {
 		float: none;
 	}
+
 	.footer__contact__option {
 		text-align: left;
 	}
+
 	.footer__contact__title {
 		margin-bottom: 20px;
 	}
+
 	.car__filter__option .car__filter__option__item.car__filter__option__item--right {
 		text-align: left;
 		padding-top: 20px;
 	}
+
 	.blog__details__share__item {
 		width: calc(50% - 34px);
 	}
+
 	.blog__details__comment__form form .input-list {
 		margin-right: 0;
 		overflow: hidden;
 	}
+
 	.blog__details__comment__form form .input-list-item {
 		width: 100%;
 		float: none;
 		margin-right: 0;
 	}
+
 	.call__text {
 		margin-bottom: 40px;
 	}
+
 	.testimonial__slider.owl-carousel .owl-nav {
 		display: none;
 	}
+
 	.blog-details-hero {
 		padding-bottom: 150px;
 	}
+
 	.blog-details {
 		margin-top: -100px;
 	}
+
 	.header__top {
 		display: none;
 	}
+
 	.header__nav {
 		display: none;
 	}
+
 	.offcanvas-menu-wrapper {
 		display: block;
 	}
+
 	.header .container {
 		position: relative;
 	}
+
 	.canvas__open {
 		display: block;
 		font-size: 22px;
@@ -3390,6 +3456,7 @@ ol {
 		right: 15px;
 		top: 35px;
 	}
+
 	.offcanvas-menu-overlay {
 		position: fixed;
 		left: 0;
@@ -3404,9 +3471,11 @@ ol {
 		transition: all, 0.5s;
 		visibility: hidden;
 	}
+
 	.offcanvas-menu-overlay.active {
 		visibility: visible;
 	}
+
 	.offcanvas-menu-wrapper {
 		position: fixed;
 		left: -300px;
@@ -3422,31 +3491,39 @@ ol {
 		transition: all, 0.5s;
 		opacity: 0;
 	}
+
 	.offcanvas-menu-wrapper.active {
 		opacity: 1;
 		left: 0;
 	}
+
 	.offcanvas__menu {
 		display: none;
 	}
+
 	.offcanvas__logo {
 		margin-bottom: 30px;
 	}
+
 	.offcanvas__widget {
 		margin-bottom: 30px;
 	}
+
 	.offcanvas__widget a {
 		font-size: 15px;
 		color: #353535;
 		margin-right: 20px;
 		display: inline-block;
 	}
+
 	.offcanvas__widget .primary-btn {
 		color: #ffffff;
 	}
+
 	.offcanvas__widget__add {
 		margin-bottom: 20px;
 	}
+
 	.offcanvas__widget__add li {
 		font-size: 15px;
 		color: #353535;
@@ -3454,38 +3531,47 @@ ol {
 		list-style: none;
 		line-height: 30px;
 	}
+
 	.offcanvas__widget__add li:last-child {
 		margin-right: 0;
 	}
+
 	.offcanvas__widget__add li i {
 		font-size: 18px;
 		color: #353535;
 		margin-right: 6px;
 	}
+
 	.offcanvas__social a {
 		display: inline-block;
 		font-size: 15px;
 		color: #353535;
 		margin-right: 16px;
 	}
+
 	.offcanvas__social a:last-child {
 		margin-right: 0;
 	}
+
 	.offcanvas__phone__num {
 		margin-bottom: 20px;
 	}
+
 	.offcanvas__phone__num i {
 		color: #353535;
 		margin-right: 6px;
 		font-size: 15px;
 	}
+
 	.offcanvas__phone__num span {
 		font-size: 15px;
 		color: #353535;
 	}
+
 	.blog__details__hero__text ul li {
 		margin-right: 25px;
 	}
+
 	.blog__details__hero__text ul li span::after {
 		right: -16px;
 	}
@@ -3494,22 +3580,27 @@ ol {
 /* Small Device = 320px */
 
 @media only screen and (max-width: 479px) {
+
 	.section-title h2,
 	.breadcrumb__text h2 {
 		font-size: 34px;
 	}
+
 	.hero__text__title h2 {
 		font-size: 38px;
 	}
+
 	.hero__tab__form form .car-price .price-input {
 		position: relative;
 		left: 0;
 		top: 0;
 		padding-top: 15px;
 	}
+
 	.hero__tab__form {
 		padding: 42px 20px 50px;
 	}
+
 	.hero__tab__form form .select-list .select-list-item {
 		max-width: 100%;
 		float: none;
@@ -3518,59 +3609,76 @@ ol {
 		flex: 100%;
 		margin-right: 0;
 	}
+
 	.hero__tab__form form .select-list {
 		margin-right: 0;
 	}
+
 	.hero__text__price {
 		padding-left: 0;
 	}
+
 	.hero__text__price .car-model {
 		position: relative;
 	}
+
 	.hero__text__price h2 {
 		margin-top: 20px;
 		font-size: 34px;
 	}
+
 	.feature__text {
 		margin-bottom: 40px;
 	}
+
 	.feature:after {
 		display: none;
 	}
+
 	.feature__text__btn .primary-btn {
 		margin-bottom: 10px;
 	}
+
 	.blog__details__comment__item.reply__comment {
 		margin-left: 0;
 	}
+
 	.hero__text .primary-btn {
 		margin-bottom: 10px;
 	}
+
 	.filter__controls li {
 		margin-right: 15px;
 	}
+
 	.blog__details__hero__text h2 {
 		font-size: 35px;
 		line-height: normal;
 	}
+
 	.blog__details__quote {
 		padding: 0;
 	}
+
 	.blog__details__comment__item__pic {
 		float: none;
 		margin-bottom: 15px;
 	}
+
 	.blog__details__author__pic {
 		float: none;
 		margin-right: 0;
 	}
+
 	.blog__details__author__text {
 		overflow: visible;
 		padding-top: 30px;
 	}
+
 	.section-title.about-title h2 {
 		line-height: normal;
 	}
+
 	.search-model-form input {
 		font-size: 24px;
 		width: 100%;
