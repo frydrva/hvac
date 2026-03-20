@@ -171,9 +171,65 @@
           
           <?php
           echo('  
-            <div class ="">
-                
+            <div class="car-detail">
+
+            <!-- IMAGE GALLERY -->
+            <div class="car-detail__gallery">
+              <div class="main-image">
+                <img src="img/cars/car-3.jpg" alt="">
+              </div>
+
+              <div class="thumbnail-images">
+                <img src="img/cars/car-8.jpg" alt="">
+                <img src="img/cars/car-6.jpg" alt="">
+                <img src="img/cars/car-5.jpg" alt="">
+              </div>
             </div>
+
+            <!-- MAIN INFO -->
+            <div class="car-detail__info">
+              <h2>Detail vozidla</h2>
+
+              <div class="price">
+                <?php echo $car["cena"]; ?>
+              </div>
+
+              <ul class="quick-specs">
+                <li><strong>Rok:</strong> <?php echo $car["rok"]; ?></li>
+                <li><strong>Nájezd:</strong> <?php echo $car["najezd"]; ?> km</li>
+                <li><strong>Motor:</strong> <?php echo $car["motorizace"]; ?> L</li>
+                <li><strong>Výkon:</strong> <?php echo $car["vykon"]; ?> hp</li>
+              </ul>
+            </div>
+
+            <!-- DETAIL TABLE -->
+            <div class="car-detail__specs">
+              <h3>Technické údaje</h3>
+              <table>
+                <tr>
+                  <td>Rok výroby</td>
+                  <td>' . $car["rok"] . '</td>
+                </tr>
+                <tr>
+                  <td>Nájezd</td>
+                  <td>' . $car["najezd"] . ' km</td>
+                </tr>
+                <tr>
+                  <td>Motor</td>
+                  <td>' . $car["motorizace"] . ' L</td>
+                </tr>
+                <tr>
+                  <td>Výkon</td>
+                  <td>' . $car["vykon"] . ' koní</td>
+                </tr>
+                <tr>
+                  <td>Cena</td>
+                  <td>' . $car["cena"] . ',-</td>
+                </tr>
+              </table>
+            </div>
+
+          </div>
             ');    
             ?>
         </div>
