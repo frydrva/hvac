@@ -35,7 +35,6 @@
   define('_DB_USER', 'frydrva1');
   define('_DB_PASSWORD', 'venda2007');
 
-
   ini_set('display_errors', '1');
   ini_set('display_startup_errors', '1');
   error_reporting(E_ALL);
@@ -47,12 +46,25 @@
       exit;
   }
 
-  if($_POST){
-    
-  }
   
-  
+  if ($_SERVER["REQUEST_METHOD"] === "POST") {
+      $jmeno = $_POST['jmeno'];
+      $email = $_POST['email'];
+      $predmet = $_POST['predmet'];
+      $zprava = $_POST['zprava'];
 
+      
+      $finalniZprava = "Předmět: " . $predmet . " \nZpráva: " . $zprava;
+
+      try {
+          
+          Db::query('INSERT INTO pformular (fullname, email, message) VALUES (?, ?, ?)', 
+                    $jmeno, $email, $finalniZprava);
+          echo "<script>alert('Dotaz byl úspěšně odeslán');</script>";
+      } catch (Exception $ex) {
+          echo "<script>alert('Chyba při odesílání zápisu!: " . addslashes($ex->getMessage()) . "');</script>";
+      }
+  }
   ?>
 </head>
 
@@ -86,7 +98,7 @@
           </ul>
         </li>
         <li><a href="about.html">About</a></li>
-        <li><a href="contact.html">Contact</a></li>
+        <li><a href="contact.php">Contact</a></li>
       </ul>
     </nav>
     <div id="mobile-menu-wrap"></div>
@@ -150,7 +162,7 @@
                 <li><a href="car.php">Cars</a></li>
                 <li><a href="car-details.html">Car Details</a></li>
                 <li><a href="about.html">About us</a></li>
-                <li class="active"><a href="contact.html">Contact</a></li>
+                <li class="active"><a href="contact.php">Contact</a></li>
               </ul>
             </nav>
           </div>
@@ -204,18 +216,17 @@
             <form method="POST">
               <div class="row">
                 <div class="col-lg-6">
-                  <input type="text" placeholder="Name" required>
+                  <input type="text" name="jmeno" placeholder="Name" required>
                 </div>
                 <div class="col-lg-6">
-                  <input type="text" placeholder="Email" required>
+                  <input type="email" name="email" placeholder="Email" required>
                 </div>
               </div>
-              <input type="text" placeholder="Subject">
-              <textarea placeholder="Your Question" required></textarea>
+              <input type="text" name="predmet" placeholder="Subject">
+              <textarea name="zprava" placeholder="Your Question" required></textarea>
               <button type="submit" class="site-btn">Submit Now</button>
             </form>
           </div>
-        </div>
       </div>
     </div>
   </section>
