@@ -47,7 +47,9 @@
       exit;
   }
 
-  $allRecords = Db::queryAll('SELECT * FROM pauta');
+  if($_POST){
+    
+  }
   
   
 
@@ -199,7 +201,7 @@
         </div>
         <div class="col-lg-6 col-md-6">
           <div class="contact__form">
-            <form action="#">
+            <form method="POST">
               <div class="row">
                 <div class="col-lg-6">
                   <input type="text" placeholder="Name" required>
