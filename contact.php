@@ -47,9 +47,7 @@
       exit;
   }
 
-  if($_POST){
-    
-  }
+  
   
   
 
@@ -201,17 +199,24 @@
         </div>
         <div class="col-lg-6 col-md-6">
           <div class="contact__form">
+            <?php
+
+              if($_SERVER["REQUEST_METHOD"] === "POST"){
+                echo "<script>alert('". $_POST['message'] . "')</script>";
+              }
+            ?>
+
             <form method="POST">
               <div class="row">
                 <div class="col-lg-6">
-                  <input type="text" placeholder="Name" required>
+                  <input type="text" placeholder="Name" name="fullName" required>
                 </div>
                 <div class="col-lg-6">
-                  <input type="text" placeholder="Email" required>
+                  <input type="text" placeholder="Email" name="email" required>
                 </div>
               </div>
               <input type="text" placeholder="Subject">
-              <textarea placeholder="Your Question" required></textarea>
+              <textarea placeholder="Your Question" name="message" required></textarea>
               <button type="submit" class="site-btn">Submit Now</button>
             </form>
           </div>
