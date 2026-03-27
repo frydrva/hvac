@@ -47,7 +47,13 @@
       exit;
   }
 
-  $allRecords = Db::queryAll('SELECT * FROM pauta');
+  $allRecords = Db::queryAll('
+    SELECT pauta.*, pfotky.file_path 
+    FROM pauta 
+    LEFT JOIN pfotky ON pauta.ID = pfotky.car_id 
+    WHERE pfotky.is_main = 1 OR pfotky.is_main IS NULL
+    GROUP BY pauta.ID
+');
   
   
 
@@ -275,40 +281,44 @@
         <div class="row">
           
           <?php
-          if ($allRecords) {
-            foreach ($allRecords as $record) {
-              echo('  
-            
-                <div class="col-lg-4 col-md-4">
-                  <div class="car__item">
-                    <div class="car__item__pic__slider owl-carousel">
-                      <img src="img/cars/car-3.jpg" alt="" loading="lazy" decoding="async">
-                      <img src="img/cars/car-8.jpg" alt="" loading="lazy" decoding="async">
-                      <img src="img/cars/car-6.jpg" alt="" loading="lazy" decoding="async">
-                      <img src="img/cars/car-5.jpg" alt="" loading="lazy" decoding="async">
-                    </div>
-                    <div class="car__item__text">
-                      <div class="car__item__text__inner">
-                        <div class="label-date">' . $record["rok"] . '</div>
-                        <h5><a href="#">' . $record["znacka"] . ' '.  $record["model"] . '</a></h5>
-                        <ul>
-                          <li><span>' . $record["najezd"] . '</span> km</li>
-                          <li>' . $record["motorizace"] . 'L</li>
-                          <li><span></span>' . $record["vykon"] . ' hp</li>
-                        </ul>
-                      </div>
-                      <div class="car__item__price"><a style="text-decoration: none;color: white;"href="carProduct.php?id='. $record["ID"] . '"> 
-                        <span class="car-option">' . $record["cena"] . '</span>
-                        <h6></h6>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-            ');
-            }
-          }
-            ?>
+if ($allRecords) {
+    foreach ($allRecords as $record) {
+        // Odstraníme úvodní lomítko z cesty v DB (z "/images/..." uděláme "images/...")
+        $imagePath = ltrim($record["file_path"], '/');
+
+        // Kontrola, zda soubor existuje, jinak dáme náhradní obrázek
+        if (empty($imagePath) || !file_exists($imagePath)) {
+            $imagePath = "img/cars/car-3.jpg"; // tvůj původní testovací obrázek
+        }
+
+        echo('  
+        <div class="col-lg-4 col-md-4">
+          <div class="car__item">
+            <div class="car__item__pic">
+                <img src="' . $imagePath . '" alt="' . $record["znacka"] . ' ' . $record["model"] . '" style="width: 100%; display: block;">
+            </div>
+            <div class="car__item__text">
+              <div class="car__item__text__inner">
+                <div class="label-date">' . $record["rok"] . '</div>
+                <h5><a href="carProduct.php?id='. $record["ID"] . '">' . $record["znacka"] . ' '.  $record["model"] . '</a></h5>
+                <ul>
+                  <li><span>' . number_format($record["najezd"], 0, ',', ' ') . '</span> km</li>
+                  <li>' . $record["motorizace"] . 'L</li>
+                  <li><span>' . $record["vykon"] . '</span> hp</li>
+                </ul>
+              </div>
+              <div class="car__item__price">
+                <a style="text-decoration: none; color: white;" href="carProduct.php?id='. $record["ID"] . '"> 
+                  <span class="car-option">' . number_format($record["cena"], 0, ',', ' ') . ' Kč</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        ');
+    }
+}
+?>
         </div>
       </div>
     </div>
