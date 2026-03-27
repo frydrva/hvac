@@ -1,3 +1,25 @@
+<?php
+include "Db.php";
+
+define('_DB_HOST', 'localhost');
+define('_DB_NAME', 'frydrva1');
+define('_DB_USER', 'frydrva1');
+define('_DB_PASSWORD', 'venda2007');
+
+try {
+    Db::connect(_DB_HOST, _DB_NAME, _DB_USER, _DB_PASSWORD);
+} catch (Exception $ex) {
+    echo "Chyba připojení k databázi: " . $ex->getMessage();
+    exit;
+}
+
+// Načtení unikátních dat pro filtry
+$years = Db::queryAll('SELECT DISTINCT rok FROM pauta ORDER BY rok DESC');
+$brands = Db::queryAll('SELECT DISTINCT znacka FROM pauta ORDER BY znacka ASC');
+
+// Načtení nejnovějšího auta pro Hero sekci
+$latestCar = Db::queryOne('SELECT * FROM pauta ORDER BY ID DESC LIMIT 1');
+?>
 <!DOCTYPE html>
 <html lang="cs">
 
@@ -29,13 +51,11 @@
 </head>
 
 <body>
-  <!-- Page Preloder -->
-  <div id="preloder">
-    <div class="loader"></div>
-  </div>
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
 
-  <!-- Offcanvas Menu Begin -->
-  <div class="offcanvas-menu-overlay"></div>
+    <div class="offcanvas-menu-overlay"></div>
   <div class="offcanvas-menu-wrapper">
     <div class="offcanvas__widget">
       <a href="#"><i class="fa fa-cart-plus"></i></a>
@@ -43,7 +63,7 @@
       <a href="#" class="primary-btn">Add Car</a>
     </div>
     <div class="offcanvas__logo">
-      <a href="index-2.html"><img src="img/logo.png" alt="" fetchpriority="high" decoding="sync"></a>
+      <a href="index.php"><img src="img/logo.png" alt="" fetchpriority="high" decoding="sync"></a>
     </div>
     <div id="mobile-menu-wrap"></div>
     <ul class="offcanvas__widget__add">
@@ -95,14 +115,14 @@
       <div class="row">
         <div class="col-lg-2">
           <div class="header__logo">
-            <a href="index-2.html"><img src="img/logo.png" alt="" fetchpriority="high" decoding="sync"></a>
+            <a href="index.php"><img src="img/logo.png" alt="" fetchpriority="high" decoding="sync"></a>
           </div>
         </div>
         <div class="col-lg-10">
           <div class="header__nav">
             <nav class="header__menu">
               <ul>
-                <li><a href="index-2.html">Home</a></li>
+                <li><a href="index.php">Home</a></li>
                 <li><a href="car.php">Cars</a></li>
                 <li><a href="car-details.html">Car Details</a></li>
                 <li><a href="about.html">About us</a></li>
@@ -120,98 +140,118 @@
   </header>
   <!-- Header Section End -->
 
-  <!-- Hero Section Begin -->
-  <section class="hero spad set-bg" data-setbg="img/hero-bg.jpg">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-7">
-          <div class="hero__text">
-            <div class="hero__text__title">
-              <span>FIND YOUR DREAM CAR</span>
-              <h2>Porsche Cayenne S</h2>
-            </div>
-            <div class="hero__text__price">
-              <div class="car-model">Model 2019</div>
-              <h2>$55,000</h2>
-            </div>
-            <a href="#" class="primary-btn"><img src="img/wheel.png" alt="" loading="lazy" decoding="async"> Test
-              Drive</a>
-            <a href="#" class="primary-btn more-btn">Learn More</a>
-          </div>
-        </div>
-        <div class="col-lg-5">
-          <div class="hero__tab">
-            <div class="hero__tab__form">
-              <h2>Buy Your Dream Car</h2>
-              <form>
-                <div class="select-list">
-                  <div class="select-list-item">
-                    <p>Select Year</p>
-                    <select>
-                      <option data-display=" ">Select Year</option>
-                      <option value="">2020</option>
-                      <option value="">2019</option>
-                      <option value="">2018</option>
-                      <option value="">2017</option>
-                      <option value="">2016</option>
-                      <option value="">2015</option>
-                    </select>
-                  </div>
-                  <div class="select-list-item">
-                    <p>Select Brand</p>
-                    <select>
-                      <option data-display=" ">Select Brand</option>
-                      <option value="">Acura</option>
-                      <option value="">Audi</option>
-                      <option value="">Bentley</option>
-                      <option value="">BMW</option>
-                      <option value="">Bugatti</option>
-                    </select>
-                  </div>
-                  <div class="select-list-item">
-                    <p>Select Model</p>
-                    <select>
-                      <option data-display=" ">Select Model</option>
-                      <option value="">Q3</option>
-                      <option value="">A4</option>
-                      <option value="">AVENTADOR</option>
-                    </select>
-                  </div>
-                  <div class="select-list-item">
-                    <p>Select Mileage</p>
-                    <select>
-                      <option data-display=" ">Select Mileage</option>
-                      <option value="">27</option>
-                      <option value="">25</option>
-                      <option value="">15</option>
-                      <option value="">10</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="car-price">
-                  <p>Price Range:</p>
-                  <div class="price-range-wrap">
-                    <div class="price-range"></div>
-                    <div class="range-slider">
-                      <div class="price-input">
-                        <input type="text" id="amount">
-                      </div>
+    <section class="hero spad set-bg" data-setbg="images/a4_1.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="hero__text">
+                        <div class="hero__text__title">
+                            <span style="color: #202020; text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);">NAJDĚTE SVŮJ VYSNĚNÝ VŮZ</span>
+                            <h2 style="color: #202020; text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);"><?php echo ($latestCar['znacka'] ?? 'Porsche') . ' ' . ($latestCar['model'] ?? 'Cayenne S'); ?></h2>
+                        </div>
+                        <div class="hero__text__price" style="color: #202020; text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);">
+                            <div class="car-model" style="color: #202020; text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);">Model <?php echo $latestCar['rok'] ?? '2024'; ?></div>
+                            <h2 style="color: #202020; text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);"><?php echo number_format(($latestCar['cena'] ?? 1250000), 0, ',', ' '); ?> Kč</h2>
+                        </div>
+                        <a href="car.php" class="primary-btn" >Prohlédnout nabídku</a>
                     </div>
-                  </div>
                 </div>
-                <button type="submit" class="site-btn">Searching</button>
-              </form>
+                <div class="col-lg-5">
+                    <div class="hero__tab">
+                        <div class="hero__tab__form">
+                            <h2>Vyhledat auto</h2>
+                            <form action="car.php" method="GET">
+                                <div class="select-list">
+                                    <div class="select-list-item">
+                                        <p>Značka</p>
+                                        <select name="brand">
+                                            <option value="">Všechny značky</option>
+                                            <?php foreach ($brands as $b): ?>
+                                                <option value="<?php echo $b['znacka']; ?>"><?php echo $b['znacka']; ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    <div class="select-list-item">
+                                        <p>Rok výroby</p>
+                                        <select name="year">
+                                            <option value="">Všechny roky</option>
+                                            <?php foreach ($years as $y): ?>
+                                                <option value="<?php echo $y['rok']; ?>"><?php echo $y['rok']; ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="car-price">
+                                    <p>Najezd (km):</p>
+                                    <div class="price-range-wrap">
+                                        <div id="mileage-range-hero" class="price-range"></div>
+                                        <div class="range-slider">
+                                            <div class="price-input">
+                                                <input type="text" id="mileage-amount" name="mileage" readonly style="border:0; color:#db2d2e; font-weight:bold; background:transparent;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="car-price">
+                                    <p>Cena (Kč):</p>
+                                    <div class="price-range-wrap">
+                                        <div id="price-range-hero" class="price-range"></div>
+                                        <div class="range-slider">
+                                            <div class="price-input">
+                                                <input type="text" id="price-amount" name="price" readonly style="border:0; color:#db2d2e; font-weight:bold; background:transparent;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="site-btn">Vyhledat</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-  </section>
-  <!-- Hero Section End -->
+    </section>
 
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.nice-select.min.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
+    <script src="js/main.js"></script>
 
+    <script>
+    $(function() {
+        // Inicializace slideru pro najezd
+        $("#mileage-range-hero").slider({
+            range: true,
+            min: 0,
+            max: 500000,
+            values: [0, 200000],
+            slide: function(event, ui) {
+                $("#mileage-amount").val(ui.values[0].toLocaleString() + " - " + ui.values[1].toLocaleString() + " km");
+            }
+        });
+        $("#mileage-amount").val($("#mileage-range-hero").slider("values", 0).toLocaleString() +
+            " - " + $("#mileage-range-hero").slider("values", 1).toLocaleString() + " km");
 
-  <!-- Footer Section Begin -->
+        // Inicializace slideru pro cenu
+        $("#price-range-hero").slider({
+            range: true,
+            min: 0,
+            max: 3000000,
+            values: [100000, 1500000],
+            slide: function(event, ui) {
+                $("#price-amount").val(ui.values[0].toLocaleString() + " - " + ui.values[1].toLocaleString() + " Kč");
+            }
+        });
+        $("#price-amount").val($("#price-range-hero").slider("values", 0).toLocaleString() +
+            " - " + $("#price-range-hero").slider("values", 1).toLocaleString() + " Kč");
+    });
+    </script>
+
+     <!-- Footer Section Begin -->
   <footer class="footer set-bg" data-setbg="img/footer-bg.jpg">
     <div class="container">
       <div class="footer__contact">

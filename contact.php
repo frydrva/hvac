@@ -83,11 +83,11 @@
       <a href="#" class="primary-btn">Add Car</a>
     </div>
     <div class="offcanvas__logo">
-      <a href="index-2.html"><img src="img/logo.png" alt="" fetchpriority="high" decoding="sync"></a>
+      <a href="index.php"><img src="img/logo.png" alt="" fetchpriority="high" decoding="sync"></a>
     </div>
     <nav class="offcanvas__menu mobile-menu">
       <ul>
-        <li class="active"><a href="index-2.html">Home</a></li>
+        <li class="active"><a href="index.php">Home</a></li>
         <li><a href="car.php">Cars</a></li>
         <li><a href="blog.html">Blog</a></li>
         <li><a href="#">Pages</a>
@@ -151,14 +151,14 @@
       <div class="row">
         <div class="col-lg-2">
           <div class="header__logo">
-            <a href="index-2.html"><img src="img/logo.png" alt="" fetchpriority="high" decoding="sync"></a>
+            <a href="index.php"><img src="img/logo.png" alt="" fetchpriority="high" decoding="sync"></a>
           </div>
         </div>
         <div class="col-lg-10">
           <div class="header__nav">
             <nav class="header__menu">
               <ul>
-                <li><a href="index-2.html">Home</a></li>
+                <li><a href="index.php">Home</a></li>
                 <li><a href="car.php">Cars</a></li>
                 <li><a href="car-details.html">Car Details</a></li>
                 <li><a href="about.html">About us</a></li>
@@ -184,7 +184,7 @@
           <div class="breadcrumb__text">
             <h2>Contact Us</h2>
             <div class="breadcrumb__links">
-              <a href="index-2.html"><i class="fa fa-home"></i> Home</a>
+              <a href="index.php"><i class="fa fa-home"></i> Home</a>
               <span>Contact Us</span>
             </div>
           </div>
