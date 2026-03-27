@@ -49,9 +49,11 @@
 
   
   
-  if (isset($_GET['id'])) {
+if (isset($_GET['id'])) {
     $car = Db::queryOne('SELECT * FROM pauta WHERE ID = ?', $_GET['id']);
-  }
+    
+    $photos = Db::queryAll('SELECT file_path FROM pfotky WHERE car_id = ? ORDER BY is_main DESC, sort_order ASC', $_GET['id']);
+}
 
   ?>
 </head>
@@ -170,68 +172,56 @@
 
           
           <?php
-          echo('  
-            <div class="car-detail">
+if (isset($car) && $car) {
+    // Příprava fotek
+    $mainImage = !empty($photos) ? ltrim($photos[0]['file_path'], '/') : 'img/cars/car-3.jpg';
+    
+    echo '
+    <div class="container mt-5">
+        <div class="car-detail">
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="car-detail__gallery">
+                        <div class="main-image mb-3">
+                            <img src="' . $mainImage . '" alt="' . $car["znacka"] . '" style="width:100%; border-radius: 8px;">
+                        </div>
 
-            <!-- IMAGE GALLERY -->
-            <div class="car-detail__gallery">
-              <div class="main-image">
-                <img src="img/cars/car-3.jpg" alt="">
-              </div>
+                        
+                 
+                    </div>
+                </div>
 
-              <div class="thumbnail-images">
-                <img src="img/cars/car-8.jpg" alt="">
-                <img src="img/cars/car-6.jpg" alt="">
-                <img src="img/cars/car-5.jpg" alt="">
-              </div>
+                <div class="col-lg-5">
+                    <div class="car-detail__info">
+                        <h2>' . $car["znacka"] . ' ' . $car["model"] . '</h2>
+                        <div class="price h3 text-danger font-weight-bold my-3">
+                            ' . number_format($car["cena"], 0, ',', ' ') . ' Kč
+                        </div>
+
+                        
+                        
+                        <a href="contact.php" class="primary-btn mt-3">Mám zájem o vůz</a>
+                    </div>
+                </div>
             </div>
 
-            <!-- MAIN INFO -->
-            <div class="car-detail__info">
-              <h2>Detail vozidla</h2>
-
-              <div class="price">
-                <?php echo $car["cena"]; ?>
-              </div>
-
-              <ul class="quick-specs">
-                <li><strong>Rok:</strong> <?php echo $car["rok"]; ?></li>
-                <li><strong>Nájezd:</strong> <?php echo $car["najezd"]; ?> km</li>
-                <li><strong>Motor:</strong> <?php echo $car["motorizace"]; ?> L</li>
-                <li><strong>Výkon:</strong> <?php echo $car["vykon"]; ?> hp</li>
-              </ul>
+            <div class="car-detail__specs mt-5">
+                <h3>Technické údaje</h3>
+                <table class="table table-striped mt-3">
+                    <tr><td>Značka</td><td>' . $car["znacka"] . '</td></tr>
+                    <tr><td>Model</td><td>' . $car["model"] . '</td></tr>
+                    <tr><td>Rok výroby</td><td>' . $car["rok"] . '</td></tr>
+                    <tr><td>Nájezd</td><td>' . number_format($car["najezd"], 0, ',', ' ') . ' km</td></tr>
+                    <tr><td>Motor</td><td>' . $car["motorizace"] . ' L</td></tr>
+                    <tr><td>Výkon</td><td>' . $car["vykon"] . ' koní</td></tr>
+                </table>
             </div>
-
-            <!-- DETAIL TABLE -->
-            <div class="car-detail__specs">
-              <h3>Technické údaje</h3>
-              <table>
-                <tr>
-                  <td>Rok výroby</td>
-                  <td>' . $car["rok"] . '</td>
-                </tr>
-                <tr>
-                  <td>Nájezd</td>
-                  <td>' . $car["najezd"] . ' km</td>
-                </tr>
-                <tr>
-                  <td>Motor</td>
-                  <td>' . $car["motorizace"] . ' L</td>
-                </tr>
-                <tr>
-                  <td>Výkon</td>
-                  <td>' . $car["vykon"] . ' koní</td>
-                </tr>
-                <tr>
-                  <td>Cena</td>
-                  <td>' . $car["cena"] . ',-</td>
-                </tr>
-              </table>
-            </div>
-
-          </div>
-            ');    
-            ?>
+        </div>
+    </div>';
+} else {
+    echo '<div class="container mt-5"><h2>Auto nebylo nalezeno.</h2></div>';
+}
+?>
         </div>
       </div>
     </div>
