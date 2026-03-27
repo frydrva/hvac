@@ -35,7 +35,6 @@
   define('_DB_USER', 'frydrva1');
   define('_DB_PASSWORD', 'venda2007');
 
-
   ini_set('display_errors', '1');
   ini_set('display_startup_errors', '1');
   error_reporting(E_ALL);
@@ -47,17 +46,62 @@
       exit;
   }
 
-  $allRecords = Db::queryAll('
-    SELECT pauta.*, pfotky.file_path 
-    FROM pauta 
-    LEFT JOIN pfotky ON pauta.ID = pfotky.car_id 
-    WHERE pfotky.is_main = 1 OR pfotky.is_main IS NULL
-    GROUP BY pauta.ID
-');
-  
-  
+  // 1. Fetch distinct values to populate the filter dropdowns dynamically
+  $brands = Db::queryAll('SELECT DISTINCT znacka FROM pauta WHERE znacka IS NOT NULL AND znacka != "" ORDER BY znacka');
+  $models = Db::queryAll('SELECT DISTINCT model FROM pauta WHERE model IS NOT NULL AND model != "" ORDER BY model');
+  $engines = Db::queryAll('SELECT DISTINCT motorizace FROM pauta WHERE motorizace IS NOT NULL AND motorizace != "" ORDER BY motorizace');
 
-  ?>
+  // 2. Build the main query dynamically
+  $sql = "SELECT pauta.*, pfotky.file_path 
+          FROM pauta 
+          LEFT JOIN pfotky ON pauta.ID = pfotky.car_id 
+          WHERE (pfotky.is_main = 1 OR pfotky.is_main IS NULL)";
+
+  // 3. Append WHERE clauses if filters were submitted via GET
+  // Note: Using addslashes() for basic safety. If your Db class has a specific way to bind parameters, you should use that instead to prevent SQL injection.
+  if (!empty($_GET['znacka'])) {
+      $znacka_filter = addslashes($_GET['znacka']);
+      $sql .= " AND pauta.znacka = '$znacka_filter'";
+  }
+  if (!empty($_GET['model'])) {
+      $model_filter = addslashes($_GET['model']);
+      $sql .= " AND pauta.model = '$model_filter'";
+  }
+  if (!empty($_GET['motorizace'])) {
+      $motorizace_filter = addslashes($_GET['motorizace']);
+      $sql .= " AND pauta.motorizace = '$motorizace_filter'";
+  }
+
+  if (!empty($_GET['min_price'])) {
+      $min_price = (int)$_GET['min_price'];
+      $sql .= " AND pauta.cena >= $min_price";
+  }
+  if (!empty($_GET['max_price'])) {
+      $max_price = (int)$_GET['max_price'];
+      $sql .= " AND pauta.cena <= $max_price";
+  }
+
+  $sql .= " GROUP BY pauta.ID";
+
+  // Sorting Logic
+  if (!empty($_GET['sort'])) {
+      if ($_GET['sort'] == 'price_desc') {
+          $sql .= " ORDER BY pauta.cena DESC";
+      } elseif ($_GET['sort'] == 'price_asc') {
+          $sql .= " ORDER BY pauta.cena ASC";
+      }
+  }
+
+  // Cars Per Page Logic
+  $limit = 9; // Default number of cars
+  if (!empty($_GET['limit']) && is_numeric($_GET['limit'])) {
+      $limit = (int)$_GET['limit'];
+  }
+  $sql .= " LIMIT $limit";
+
+  // 4. Execute the final query
+  $allRecords = Db::queryAll($sql);
+?>
 </head>
 
 <body>
@@ -184,100 +228,97 @@
           </div>
           <div class="car__filter">
             <h5>Car Filter</h5>
-            <form action="#">
-              <select>
-                <option data-display="Brand">Select Brand</option>
-                <option value="">Acura</option>
-                <option value="">Audi</option>
-                <option value="">Bentley</option>
-                <
-                <option value="">BMW</option>
-                <option value="">Bugatti</option>
+            <form action="car.php" method="GET">
+              
+              <select name="znacka">
+                <option value="">Select Brand</option>
+                <?php foreach ($brands as $brand): ?>
+                    <option value="<?= htmlspecialchars($brand['znacka']) ?>" <?= (isset($_GET['znacka']) && $_GET['znacka'] == $brand['znacka']) ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($brand['znacka']) ?>
+                    </option>
+                <?php endforeach; ?>
               </select>
-              <select>
-                <option data-display="Model">Select Model</option>
-                <option value="">Q3</option>
-                <option value="">A4</option>
-                <option value="">AVENTADOR</option>
+
+              <select name="model">
+                <option value="">Select Model</option>
+                <?php foreach ($models as $model): ?>
+                    <option value="<?= htmlspecialchars($model['model']) ?>" <?= (isset($_GET['model']) && $_GET['model'] == $model['model']) ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($model['model']) ?>
+                    </option>
+                <?php endforeach; ?>
               </select>
-              <select>
-                <option value="">Body Style</option>
-                <option value="">Option 1</option>
-                <option value="">Option 2</option>
+
+              <select name="motorizace">
+                <option value="">Select Engine</option>
+                <?php foreach ($engines as $engine): ?>
+                    <option value="<?= htmlspecialchars($engine['motorizace']) ?>" <?= (isset($_GET['motorizace']) && $_GET['motorizace'] == $engine['motorizace']) ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($engine['motorizace']) ?>
+                    </option>
+                <?php endforeach; ?>
               </select>
-              <select>
+
+              <select name="stav">
                 <option value="">Condition</option>
-                <option value="">First Hand</option>
-                <option value="">Second Hand</option>
+                <option value="First Hand" <?= (isset($_GET['stav']) && $_GET['stav'] == 'First Hand') ? 'selected' : '' ?>>First Hand</option>
+                <option value="Second Hand" <?= (isset($_GET['stav']) && $_GET['stav'] == 'Second Hand') ? 'selected' : '' ?>>Second Hand</option>
               </select>
-              <select>
-                <option value="">Transmisson</option>
-                <option value="">Bluetooth</option>
-                <option value="">WiFi</option>
-              </select>
-              <select>
-                <option value="">Mileage</option>
-                <option value="">27</option>
-                <option value="">20</option>
-                <option value="">15</option>
-                <option value="">10</option>
-              </select>
-              <select>
-                <option value="">Engine</option>
-                <option value="">BS3</option>
-                <option value="">BS4</option>
-                <option value="">BS5</option>
-                <option value="">BS6</option>
-              </select>
-              <select>
-                <option value="">Colors</option>
-                <option value="">Red</option>
-                <option value="">Blue</option>
-                <option value="">Black</option>
-                <option value="">Yellow</option>
-              </select>
+
               <div class="filter-price">
-                <p>Price:</p>
+                <br>
+                <br>
                 <div class="price-range-wrap">
                   <div class="filter-price-range"></div>
                   <div class="range-slider">
                     <div class="price-input">
-                      <input type="text" id="filterAmount">
+                      <input type="text" id="filterAmount" readonly style="border:0; color:#db2d2e; font-weight:bold; width:100%; max-width: 100%; background: transparent;">
+                      
+                      <input type="hidden" name="min_price" id="min_price" value="<?= isset($_GET['min_price']) ? htmlspecialchars($_GET['min_price']) : '0' ?>">
+                      <input type="hidden" name="max_price" id="max_price" value="<?= isset($_GET['max_price']) ? htmlspecialchars($_GET['max_price']) : '5000000' ?>">
                     </div>
                   </div>
                 </div>
               </div>
               <div class="car__filter__btn">
-                <button type="submit" class="site-btn">Reset FIlter</button>
+                <button type="submit" class="site-btn">Filter Cars</button>
+                <a href="car.php" class="site-btn" style="background: #e1e1e1; color: #111; margin-top: 10px; display: block; text-align: center;">Reset Filter</a>
               </div>
             </form>
           </div>
         </div>
       </div>
       <div class="col-lg-9">
-        <div class="car__filter__option">
-          <div class="row">
-            <div class="col-lg-6 col-md-6">
-              <div class="car__filter__option__item">
-                <h6>Show On Page</h6>
-                <select>
-                  <option value="">9 Car</option>
-                  <option value="">15 Car</option>
-                  <option value="">20 Car</option>
-                </select>
+        <form action="car.php" method="GET" id="top-filter-form">
+          <?php if(!empty($_GET['znacka'])): ?><input type="hidden" name="znacka" value="<?= htmlspecialchars($_GET['znacka']) ?>"><?php endif; ?>
+          <?php if(!empty($_GET['model'])): ?><input type="hidden" name="model" value="<?= htmlspecialchars($_GET['model']) ?>"><?php endif; ?>
+          <?php if(!empty($_GET['motorizace'])): ?><input type="hidden" name="motorizace" value="<?= htmlspecialchars($_GET['motorizace']) ?>"><?php endif; ?>
+          <?php if(!empty($_GET['min_price'])): ?><input type="hidden" name="min_price" value="<?= htmlspecialchars($_GET['min_price']) ?>"><?php endif; ?>
+          <?php if(!empty($_GET['max_price'])): ?><input type="hidden" name="max_price" value="<?= htmlspecialchars($_GET['max_price']) ?>"><?php endif; ?>
+
+          <div class="car__filter__option">
+            <div class="row">
+              <div class="col-lg-6 col-md-6">
+                <div class="car__filter__option__item">
+                  <h6>Show On Page</h6>
+                  <select name="limit" onchange="this.form.submit()">
+                    <option value="9" <?= (isset($_GET['limit']) && $_GET['limit'] == 9) ? 'selected' : '' ?>>9 Cars</option>
+                    <option value="15" <?= (isset($_GET['limit']) && $_GET['limit'] == 15) ? 'selected' : '' ?>>15 Cars</option>
+                    <option value="20" <?= (isset($_GET['limit']) && $_GET['limit'] == 20) ? 'selected' : '' ?>>20 Cars</option>
+                  </select>
+                </div>
               </div>
-            </div>
-            <div class="col-lg-6 col-md-6">
-              <div class="car__filter__option__item car__filter__option__item--right">
-                <h6>Sort By</h6>
-                <select>
-                  <option value="">Price: Highest Fist</option>
-                  <option value="">Price: Lowest Fist</option>
-                </select>
+              <div class="col-lg-6 col-md-6">
+                <div class="car__filter__option__item car__filter__option__item--right">
+                  <h6>Sort By</h6>
+                  <select name="sort" onchange="this.form.submit()">
+                    <option value="">Default Sorting</option>
+                    <option value="price_desc" <?= (isset($_GET['sort']) && $_GET['sort'] == 'price_desc') ? 'selected' : '' ?>>Price: Highest First</option>
+                    <option value="price_asc" <?= (isset($_GET['sort']) && $_GET['sort'] == 'price_asc') ? 'selected' : '' ?>>Price: Lowest First</option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </form>
         <div class="row">
           
           <?php
@@ -429,6 +470,39 @@ if ($allRecords) {
 <script src="js/jquery.slicknav.js"></script>
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/main.js"></script>
+<script>
+$(document).ready(function() {
+    // 1. Get the current values from the URL (or use defaults)
+    var currentMin = parseInt($("#min_price").val()) || 0;
+    var currentMax = parseInt($("#max_price").val()) || 1000000; // Max set to 1,000,000
+
+    // 2. Initialize the jQuery UI Slider
+    $(".filter-price-range").slider({
+        range: true,
+        min: 0,
+        max: 1000000, // Maximum slider limit
+        step: 10000,  // How much the slider jumps by (e.g., 10,000 Kč)
+        values: [currentMin, currentMax],
+        slide: function(event, ui) {
+            // 3. Format numbers with spaces (e.g., 500 000)
+            var formattedMin = ui.values[0].toLocaleString('cs-CZ');
+            var formattedMax = ui.values[1].toLocaleString('cs-CZ');
+
+            // 4. Update the text the user sees
+            $("#filterAmount").val(formattedMin + " Kč - " + formattedMax + " Kč");
+            
+            // 5. Update the hidden inputs that PHP reads
+            $("#min_price").val(ui.values[0]);
+            $("#max_price").val(ui.values[1]);
+        }
+    });
+
+    // 6. Set the text box text immediately when the page loads
+    var initialMin = $(".filter-price-range").slider("values", 0).toLocaleString('cs-CZ');
+    var initialMax = $(".filter-price-range").slider("values", 1).toLocaleString('cs-CZ');
+    $("#filterAmount").val(initialMin + " Kč - " + initialMax + " Kč");
+});
+</script>
 </body>
 
 </html>
