@@ -35,7 +35,6 @@
   define('_DB_USER', 'frydrva1');
   define('_DB_PASSWORD', 'venda2007');
 
-
   ini_set('display_errors', '1');
   ini_set('display_startup_errors', '1');
   error_reporting(E_ALL);
@@ -50,7 +49,24 @@
   
   
   
+  if ($_SERVER["REQUEST_METHOD"] === "POST") {
+      $jmeno = $_POST['jmeno'];
+      $email = $_POST['email'];
+      $predmet = $_POST['predmet'];
+      $zprava = $_POST['zprava'];
 
+      
+      $finalniZprava = "Předmět: " . $predmet . " \nZpráva: " . $zprava;
+
+      try {
+          
+          Db::query('INSERT INTO pformular (fullname, email, message) VALUES (?, ?, ?)', 
+                    $jmeno, $email, $finalniZprava);
+          echo "<script>alert('Dotaz byl úspěšně odeslán');</script>";
+      } catch (Exception $ex) {
+          echo "<script>alert('Chyba při odesílání zápisu!: " . addslashes($ex->getMessage()) . "');</script>";
+      }
+  }
   ?>
 </head>
 
@@ -69,11 +85,11 @@
       <a href="#" class="primary-btn">Add Car</a>
     </div>
     <div class="offcanvas__logo">
-      <a href="index-2.html"><img src="img/logo.png" alt="" fetchpriority="high" decoding="sync"></a>
+      <a href="index.php"><img src="img/logo.png" alt="" fetchpriority="high" decoding="sync"></a>
     </div>
     <nav class="offcanvas__menu mobile-menu">
       <ul>
-        <li class="active"><a href="index-2.html">Home</a></li>
+        <li class="active"><a href="index.php">Home</a></li>
         <li><a href="car.php">Cars</a></li>
         <li><a href="blog.html">Blog</a></li>
         <li><a href="#">Pages</a>
@@ -84,7 +100,7 @@
           </ul>
         </li>
         <li><a href="about.html">About</a></li>
-        <li><a href="contact.html">Contact</a></li>
+        <li><a href="contact.php">Contact</a></li>
       </ul>
     </nav>
     <div id="mobile-menu-wrap"></div>
@@ -137,18 +153,18 @@
       <div class="row">
         <div class="col-lg-2">
           <div class="header__logo">
-            <a href="index-2.html"><img src="img/logo.png" alt="" fetchpriority="high" decoding="sync"></a>
+            <a href="index.php"><img src="img/logo.png" alt="" fetchpriority="high" decoding="sync"></a>
           </div>
         </div>
         <div class="col-lg-10">
           <div class="header__nav">
             <nav class="header__menu">
               <ul>
-                <li><a href="index-2.html">Home</a></li>
+                <li><a href="index.php">Home</a></li>
                 <li><a href="car.php">Cars</a></li>
                 <li><a href="car-details.html">Car Details</a></li>
                 <li><a href="about.html">About us</a></li>
-                <li class="active"><a href="contact.html">Contact</a></li>
+                <li class="active"><a href="contact.php">Contact</a></li>
               </ul>
             </nav>
           </div>
@@ -170,7 +186,7 @@
           <div class="breadcrumb__text">
             <h2>Contact Us</h2>
             <div class="breadcrumb__links">
-              <a href="index-2.html"><i class="fa fa-home"></i> Home</a>
+              <a href="index.php"><i class="fa fa-home"></i> Home</a>
               <span>Contact Us</span>
             </div>
           </div>
@@ -217,10 +233,17 @@
               </div>
               <input type="text" placeholder="Subject">
               <textarea placeholder="Your Question" name="message" required></textarea>
+                  <input type="text" name="jmeno" placeholder="Name" required>
+                </div>
+                <div class="col-lg-6">
+                  <input type="email" name="email" placeholder="Email" required>
+                </div>
+              </div>
+              <input type="text" name="predmet" placeholder="Subject">
+              <textarea name="zprava" placeholder="Your Question" required></textarea>
               <button type="submit" class="site-btn">Submit Now</button>
             </form>
           </div>
-        </div>
       </div>
     </div>
   </section>

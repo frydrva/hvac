@@ -49,10 +49,13 @@
 
   
   
-  if (isset($_GET['id'])) {
+if (isset($_GET['id'])) {
     $car = Db::queryOne('SELECT * FROM pauta WHERE ID = ?', $_GET['id']);
     $photo = Db::queryOne('SELECT * FROM pfotky WHERE ID = ?', $_GET['id']);
   }
+    
+    $photos = Db::queryAll('SELECT file_path FROM pfotky WHERE car_id = ? ORDER BY is_main DESC, sort_order ASC', $_GET['id']);
+}
 
   ?>
 </head>
@@ -72,7 +75,7 @@
     <a href="#" class="primary-btn">Add Car</a>
   </div>
   <div class="offcanvas__logo">
-    <a href="index-2.html"><img src="img/logo.png" alt="" fetchpriority="high" decoding="sync"></a>
+    <a href="index.php"><img src="img/logo.png" alt="" fetchpriority="high" decoding="sync"></a>
   </div>
   <div id="mobile-menu-wrap"></div>
   <ul class="offcanvas__widget__add">
@@ -124,18 +127,18 @@
     <div class="row">
       <div class="col-lg-2">
         <div class="header__logo">
-          <a href="index-2.html"><img src="img/logo.png" alt="" fetchpriority="high" decoding="sync"></a>
+          <a href="index.php"><img src="img/logo.png" alt="" fetchpriority="high" decoding="sync"></a>
         </div>
       </div>
       <div class="col-lg-10">
         <div class="header__nav">
           <nav class="header__menu">
             <ul>
-              <li><a href="index-2.html">Home</a></li>
+              <li><a href="index.php">Home</a></li>
               <li class="active"><a href="car.php">Cars</a></li>
               <li><a href="car-details.html">Car Details</a></li>
               <li><a href="about.html">About us</a></li>
-              <li><a href="contact.html">Contact</a></li>
+              <li><a href="contact.php">Contact</a></li>
             </ul>
           </nav>
           </div>
@@ -157,7 +160,7 @@
         <div class="breadcrumb__text">
           <h2>Car Listing</h2>
           <div class="breadcrumb__links">
-            <a href="index-2.html"><i class="fa fa-home"></i> Home</a>
+            <a href="index.php"><i class="fa fa-home"></i> Home</a>
             
           </div>
         </div>
@@ -233,6 +236,56 @@
             }
              
             ?>
+if (isset($car) && $car) {
+    // Příprava fotek
+    $mainImage = !empty($photos) ? ltrim($photos[0]['file_path'], '/') : 'img/cars/car-3.jpg';
+    
+    echo '
+    <div class="container mt-5">
+        <div class="car-detail">
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="car-detail__gallery">
+                        <div class="main-image mb-3">
+                            <img src="' . $mainImage . '" alt="' . $car["znacka"] . '" style="width:100%; border-radius: 8px;">
+                        </div>
+
+                        
+                 
+                    </div>
+                </div>
+
+                <div class="col-lg-5">
+                    <div class="car-detail__info">
+                        <h2>' . $car["znacka"] . ' ' . $car["model"] . '</h2>
+                        <div class="price h3 text-danger font-weight-bold my-3">
+                            ' . number_format($car["cena"], 0, ',', ' ') . ' Kč
+                        </div>
+
+                        
+                        
+                        <a href="contact.php" class="primary-btn mt-3">Mám zájem o vůz</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="car-detail__specs mt-5">
+                <h3>Technické údaje</h3>
+                <table class="table table-striped mt-3">
+                    <tr><td>Značka</td><td>' . $car["znacka"] . '</td></tr>
+                    <tr><td>Model</td><td>' . $car["model"] . '</td></tr>
+                    <tr><td>Rok výroby</td><td>' . $car["rok"] . '</td></tr>
+                    <tr><td>Nájezd</td><td>' . number_format($car["najezd"], 0, ',', ' ') . ' km</td></tr>
+                    <tr><td>Motor</td><td>' . $car["motorizace"] . ' L</td></tr>
+                    <tr><td>Výkon</td><td>' . $car["vykon"] . ' koní</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>';
+} else {
+    echo '<div class="container mt-5"><h2>Auto nebylo nalezeno.</h2></div>';
+}
+?>
         </div>
       </div>
     </div>
